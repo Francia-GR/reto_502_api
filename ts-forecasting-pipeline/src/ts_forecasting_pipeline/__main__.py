@@ -1,5 +1,5 @@
-"""pipeline file for ensuring the package is executable
-as `pipeline` and `python -m pipeline`
+"""ts_forecasting_pipeline file for ensuring the package is executable
+as `ts-forecasting-pipeline` and `python -m ts_forecasting_pipeline`
 """
 import importlib
 from pathlib import Path

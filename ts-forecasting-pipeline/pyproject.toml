@@ -3,16 +3,16 @@ requires = [ "setuptools",]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pipeline"
+name = "ts_forecasting_pipeline"
 readme = "README.md"
 dynamic = [ "dependencies", "version",]
 
 [project.scripts]
-pipeline = "pipeline.__main__:main"
+ts-forecasting-pipeline = "ts_forecasting_pipeline.__main__:main"
 
 [tool.kedro]
-package_name = "pipeline"
-project_name = "pipeline"
+package_name = "ts_forecasting_pipeline"
+project_name = "ts_forecasting_pipeline"
 kedro_init_version = "0.19.6"
 tools = [ "Linting", "Custom Logging", "Data Structure", "Kedro Viz",]
 example_pipeline = "False"
@@ -33,7 +33,7 @@ docstring-code-format = true
 file = "requirements.txt"
 
 [tool.setuptools.dynamic.version]
-attr = "pipeline.__version__"
+attr = "ts_forecasting_pipeline.__version__"
 
 [tool.setuptools.packages.find]
 where = [ "src",]

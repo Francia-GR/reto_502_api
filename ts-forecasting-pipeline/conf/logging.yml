@@ -36,7 +36,7 @@ loggers:
   kedro:
     level: INFO
 
-  pipeline:
+  ts_forecasting_pipeline:
     level: INFO
 
 root:
