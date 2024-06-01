@@ -1,0 +1,40 @@
+[build-system]
+requires = [ "setuptools",]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pipeline"
+readme = "README.md"
+dynamic = [ "dependencies", "version",]
+
+[project.scripts]
+pipeline = "pipeline.__main__:main"
+
+[tool.kedro]
+package_name = "pipeline"
+project_name = "pipeline"
+kedro_init_version = "0.19.6"
+tools = [ "Linting", "Custom Logging", "Data Structure", "Kedro Viz",]
+example_pipeline = "False"
+source_dir = "src"
+
+[tool.ruff]
+line-length = 88
+show-fixes = true
+select = [ "F", "W", "E", "I", "UP", "PL", "T201",]
+ignore = [ "E501",]
+
+[project.entry-points."kedro.hooks"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.setuptools.dynamic.dependencies]
+file = "requirements.txt"
+
+[tool.setuptools.dynamic.version]
+attr = "pipeline.__version__"
+
+[tool.setuptools.packages.find]
+where = [ "src",]
+namespaces = false

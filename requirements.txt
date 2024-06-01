@@ -3,4 +3,4 @@ uvicorn[standard]
 pandas
 numpy
 statsmodels
-kedros
+kedro
