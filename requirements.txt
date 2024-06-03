@@ -4,3 +4,5 @@ pandas
 numpy
 statsmodels
 kedro
+pyarrow
+fastparquet

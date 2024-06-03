@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def load_data(raw_data:pd.DataFrame) -> pd.DataFrame:
+def load_data(data:pd.DataFrame) -> pd.DataFrame:
     '''
     Retrive data from DB and standarize names of columns.
     Create pivot table to get time series by company ID.
@@ -12,7 +12,8 @@ def load_data(raw_data:pd.DataFrame) -> pd.DataFrame:
     Returns:
         pivot_data [pd.DataFrame]: Dataframe containing time series by company_id.
     '''
-    data = pd.read_csv('../model/dataquery.csv', index_col=0)
+    
+    data = data.drop(data.columns[0], axis=1)
     data.columns = ['date', 'company', 'data']
     data['date'] = pd.to_datetime(data['date'])
 
