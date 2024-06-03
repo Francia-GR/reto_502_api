@@ -1,0 +1,7 @@
+raw_data:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/revenue_data.csv # Change to parquet
+
+preprocessed_data:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/preprocessed_data.pq
