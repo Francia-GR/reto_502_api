@@ -1,0 +1,27 @@
+from kedro.pipeline import Pipeline, node
+from kedro.io import DataCatalog
+from kedro.runner.sequential_runner import SequentialRunner
+
+
+# additional datasets you want to use
+from kedro.extras.datasets.pandas.csv_dataset import CSVDataSet
+from kedro.extras.datasets.pandas.parquet_dataset import ParquetDataSet
+
+# the sequential runner is the simplest. It runs one node at a time.
+runner = SequentialRunner()
+
+# this is a super simple example pipeline
+pipeline = Pipeline(
+    [
+        node(lambda: range(100), None, "range"),
+        node(lambda x: [i ** 2 for i in x], "range", "range**2"),
+        node(lambda x: [i for i in x if i > 5000], "range**2", "range>5k"),
+        node(lambda x: x[:5], "range>5k", "range>5k-head"),
+        node(lambda x: sum(x) / len(x), "range>5k", "range>5k-mean"),
+    ]
+)
+
+# to get up and running, you can use an empty catalog
+catalog = DataCatalog()
+
+runner.run(pipeline, catalog)
