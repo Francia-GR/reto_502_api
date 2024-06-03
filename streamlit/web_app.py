@@ -2,8 +2,6 @@ import requests
 import pandas as pd
 import streamlit as st
 
-st.title('Income Forecast')
-st.write('Web app demo interacting with API for time series prediction.')
 
 def post_request(aggregation, num_of_predictions):
     '''
@@ -17,7 +15,7 @@ def post_request(aggregation, num_of_predictions):
 
     # Define the API endpoint URL
     url = f'http://127.0.0.1:8000/uploadfile/predict_{aggregation}'#?num_of_predictions={num_of_predictions}'
-    files = {'file': open('streamlit/data.json' ,'rb')}
+    files = {'file': open('data.json' ,'rb')}
     params = {"num_of_predictions": num_of_predictions}
 
     try:
@@ -39,7 +37,7 @@ def post_request(aggregation, num_of_predictions):
         print('Error:', e)
         return None
 
-    
+'''    
 def main():
 
     posts = post_request('weekly', 1)
@@ -51,4 +49,14 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
+'''    
+
+data_columns = ["Email", "Home phone", "Mobile phone"]
+
+st.title('Income Forecast')
+st.write('Web app demo interacting with API for time series prediction.')
+
+company = st.selectbox('Company',
+                        data_columns)
+aggregation = st.selectbox('Compute predicions:',
+                           ['daily', 'weekly', 'biweekly', 'monthly'])
