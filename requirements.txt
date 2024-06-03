@@ -6,3 +6,5 @@ statsmodels
 kedro
 pyarrow
 fastparquet
+streamlit
+requests
