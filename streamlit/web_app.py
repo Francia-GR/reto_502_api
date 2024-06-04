@@ -2,9 +2,6 @@ import requests
 import pandas as pd
 import streamlit as st
 
-st.title('Income Forecast')
-st.write('Web app demo interacting with API for time series prediction.')
-
 def post_request(aggregation, num_of_predictions):
     '''
     Args:
@@ -16,7 +13,7 @@ def post_request(aggregation, num_of_predictions):
     '''
 
     # Define the API endpoint URL
-    url = f'http://127.0.0.1:8000/uploadfile/predict_{aggregation}'#?num_of_predictions={num_of_predictions}'
+    url = f'http://127.0.0.1:8000/uploadfile/predict_{aggregation}'
     files = {'file': open('streamlit/data.json' ,'rb')}
     params = {"num_of_predictions": num_of_predictions}
 
@@ -26,8 +23,6 @@ def post_request(aggregation, num_of_predictions):
 
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
-            print(type(response))
-            print(response)
             data = response.json()
             return data
         else:
@@ -39,16 +34,26 @@ def post_request(aggregation, num_of_predictions):
         print('Error:', e)
         return None
 
-    
-def main():
 
-    posts = post_request('weekly', 1)
-    if posts:
-        print(type(posts))
-        print(posts)
-    else:
-        print('Failed to fetch data from API.')
+data_columns = ["Company 1", "Company 2", "Company 3"]
 
-if __name__ == '__main__':
-    main()
-    
+st.title('Income Forecast')
+st.write('Web app demo interacting with API for time series prediction.')
+
+company = st.selectbox('Company',
+                        data_columns)
+
+agg_options = {'By day':'daily', 'By week':'weekly', 'By month':'monthly'}
+
+aggregation = st.selectbox('Compute predicions:',
+                           agg_options.keys())
+aggregation = agg_options[aggregation]
+
+num_of_predictions = st.number_input("Enter an integer number", step=1, format="%d")
+
+posts = post_request('weekly', 5)
+if posts:
+    print(type(posts))
+    print(posts)
+else:
+    print('Failed to fetch data from API.')
