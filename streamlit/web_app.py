@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import streamlit as st
 
-def post_request(aggregation, num_of_predictions):
+def post_request(url, files, params):
     '''
     Args:
         None
@@ -11,12 +11,6 @@ def post_request(aggregation, num_of_predictions):
         data [dictionary] : Response from the API (JSON like response)
 
     '''
-
-    # Define the API endpoint URL
-    url = f'http://127.0.0.1:8000/uploadfile/predict_{aggregation}'
-    files = {'file': open('streamlit/data.json' ,'rb')}
-    params = {"num_of_predictions": num_of_predictions}
-
     try:
         # Make a GET request to the API endpoint using requests.get()
         response = requests.post(url, files=files, params=params)
@@ -35,13 +29,17 @@ def post_request(aggregation, num_of_predictions):
         return None
 
 
-data_columns = ["Company 1", "Company 2", "Company 3"]
+# Web App
+# --------------------------------------------------------------------------   
 
 st.title('Income Forecast')
 st.write('Web app demo interacting with API for time series prediction.')
 
+# Input Parameters
+# --------------------------------------------------------------------------   
+
 company = st.selectbox('Company',
-                        data_columns)
+                        ["Company 1", "Company 2", "Company 3"])
 
 agg_options = {'By day':'daily', 'By week':'weekly', 'By month':'monthly'}
 
@@ -51,9 +49,25 @@ aggregation = agg_options[aggregation]
 
 num_of_predictions = st.number_input("Enter an integer number", step=1, format="%d")
 
-posts = post_request('weekly', 5)
-if posts:
-    print(type(posts))
-    print(posts)
-else:
-    print('Failed to fetch data from API.')
+
+# API Endpoint
+# --------------------------------------------------------------------------   
+
+url = f'http://127.0.0.1:8000/uploadfile/predict_{aggregation}'
+files = {'file': open('streamlit/data.json' ,'rb')}
+params = {"num_of_predictions": num_of_predictions}
+
+
+# API Call
+# --------------------------------------------------------------------------   
+
+if st.button('Compute Predictions'):
+    results = post_request(url, files, params)
+    # print(results)
+    if results:
+        output_data = pd.DataFrame(list(results['forecast'].items()), 
+                                   columns=['Date', 'Forecast'])
+
+        st.dataframe(output_data, hide_index=True, use_container_width=True)
+    else:
+        print('Failed to fetch data from API.')
