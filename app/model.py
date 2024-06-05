@@ -20,10 +20,4 @@ def get_predictions(series, n_predictions):
     forecast = model_fit.forecast(steps=n_predictions)
     forecast_df = pd.DataFrame({'forecast': forecast})
 
-    # forecast_df['date'] = forecast_df.index
-    # forecast_df.reset_index(inplace = True, drop = True)
-
-    # Generate next dates
-    # ...
-
     return forecast_df
